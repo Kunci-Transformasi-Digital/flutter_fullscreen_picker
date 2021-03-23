@@ -8,26 +8,26 @@ class FullScreenPicker extends StatefulWidget {
   final List<SelectOption> selectOptions;
 
   /// Selected Option Display
-  final SelectOption selectedOption;
+  final SelectOption? selectedOption;
 
   /// Page background Color, defaults to Colors.White
-  final Color pageBackgroundColor;
+  final Color? pageBackgroundColor;
 
   /// Appbar title Color, defaults to Colors.black
-  final Color appBarTitleColor;
+  final Color? appBarTitleColor;
 
   /// Appbar Icons Color, defaults to Colors.black
-  final Color appBarIconsColor;
+  final Color? appBarIconsColor;
 
   /// Select option text Color, defaults to Colors.black
-  final Color optionTextColor;
+  final Color? optionTextColor;
 
   /// Select option text style, can be null
-  final TextStyle optionTextStyle;
+  final TextStyle? optionTextStyle;
 
   FullScreenPicker({
-    @required this.pageTitle,
-    @required this.selectOptions,
+    required this.pageTitle,
+    required this.selectOptions,
     this.selectedOption,
     this.optionTextStyle,
     this.pageBackgroundColor = Colors.white,
@@ -41,7 +41,7 @@ class FullScreenPicker extends StatefulWidget {
 }
 
 class _FullScreenPickerState extends State<FullScreenPicker> {
-  List<SelectOption> selectList = List();
+  List<SelectOption> selectList = [];
 
   @override
   void initState() {
@@ -125,7 +125,7 @@ class _FullScreenPickerState extends State<FullScreenPicker> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  selectList[index].display,
+                                  selectList[index].display!,
                                   style: widget.optionTextStyle ??
                                       TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -231,13 +231,12 @@ class _FullScreenPickerState extends State<FullScreenPicker> {
     Navigator.pop(context, option);
   }
 
-  processSelection(String value) {
+  processSelection(String? value) {
     if (value != null && value != "") {
-      SelectOption opt = selectList.firstWhere(
-        (item) => item.display.toLowerCase() == value.toLowerCase(),
-        orElse: () => null,
-      );
+      SelectOption? opt = selectList.firstWhere(
+          (item) => item.display!.toLowerCase() == value.toLowerCase());
 
+      // ignore: unnecessary_null_comparison
       if (opt != null) {
         onSelect(opt);
       }
